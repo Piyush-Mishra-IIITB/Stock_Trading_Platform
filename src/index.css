@@ -11,3 +11,18 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.nav-link{
+  margin-left:40px;
+}
+
+a {
+  text-decoration: none;
+  color: #387ed1; /* Zerodha blue */
+  font-weight: 500;
+}
+
+/* Hover effect */
+a:hover {
+  text-decoration: underline;
+}
