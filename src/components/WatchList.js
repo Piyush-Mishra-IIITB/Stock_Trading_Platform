@@ -1,8 +1,10 @@
-import React, { useState} from "react";
+import React, { useState, useContext } from "react";
 
-import { Tooltip} from "@mui/material";
-import { watchlist } from "../data/data";
+import axios from "axios";
 
+import GeneralContext from "./GeneralContext";
+
+import { Tooltip, Grow } from "@mui/material";
 
 import {
   BarChartOutlined,
@@ -11,7 +13,7 @@ import {
   MoreHoriz,
 } from "@mui/icons-material";
 
-
+import { watchlist } from "../data/data";
 
 
 const labels = watchlist.map((subArray) => subArray["name"]);
@@ -44,7 +46,33 @@ const WatchList = () => {
     ],
   };
 
-     
+  // export const data = {
+  //   labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+  // datasets: [
+  //   {
+  //     label: "# of Votes",
+  //     data: [12, 19, 3, 5, 2, 3],
+  //     backgroundColor: [
+  //       "rgba(255, 99, 132, 0.2)",
+  //       "rgba(54, 162, 235, 0.2)",
+  //       "rgba(255, 206, 86, 0.2)",
+  //       "rgba(75, 192, 192, 0.2)",
+  //       "rgba(153, 102, 255, 0.2)",
+  //       "rgba(255, 159, 64, 0.2)",
+  //     ],
+  //     borderColor: [
+  //       "rgba(255, 99, 132, 1)",
+  //       "rgba(54, 162, 235, 1)",
+  //       "rgba(255, 206, 86, 1)",
+  //       "rgba(75, 192, 192, 1)",
+  //       "rgba(153, 102, 255, 1)",
+  //       "rgba(255, 159, 64, 1)",
+  //     ],
+  //     borderWidth: 1,
+  //   },
+  // ],
+  // };
+
   return (
     <div className="watchlist-container">
       <div className="search-container">
@@ -63,7 +91,6 @@ const WatchList = () => {
           return <WatchListItem stock={stock} key={index} />;
         })}
       </ul>
-
     </div>
   );
 };
@@ -99,46 +126,47 @@ const WatchListItem = ({ stock }) => {
     </li>
   );
 };
-
-
-
 const WatchListActions = ({ uid }) => {
-  
+  const { openBuyWindow, openSellWindow } = useContext(GeneralContext);
+
+  const handleBuyClick = () => {
+    openBuyWindow(uid);
+  };
+
+  const handleSellClick = () => {
+    openSellWindow(uid);
+  };
+
   return (
     <span className="actions">
       <span>
-        <Tooltip
-          title="Buy (B)"
-          placement="top"
-          arrow
-          
-        >
-          <button className="buy">Buy</button>
+
+        <Tooltip title="Buy (B)" placement="top" arrow>
+          <button className="buy" onClick={handleBuyClick}>
+            Buy
+          </button>
         </Tooltip>
-        <Tooltip
-          title="Sell (S)"
-          placement="top"
-          arrow
-          
-        >
-          <button className="sell">Sell</button>
+
+        <Tooltip title="Sell (S)" placement="top" arrow>
+          <button className="sell" onClick={handleSellClick}>
+            Sell
+          </button>
         </Tooltip>
-        <Tooltip
-          title="Analytics (A)"
-          placement="top"
-          arrow
-          
-        >
+
+        <Tooltip title="Analytics (A)" placement="top" arrow>
           <button className="action">
             <BarChartOutlined className="icon" />
           </button>
         </Tooltip>
-        <Tooltip title="More" placement="top" arrow >
+
+        <Tooltip title="More" placement="top" arrow>
           <button className="action">
             <MoreHoriz className="icon" />
           </button>
         </Tooltip>
+
       </span>
     </span>
   );
 };
+
